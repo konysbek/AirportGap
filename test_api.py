@@ -14,6 +14,11 @@ def test_get_airports():
     assert res.status_code == 200, "AIRPORT LINK BROKEN: " + str(res.status_code)
 
 
+@pytest.mark.parametrize('air_id', ['KIX', 'NRT'])
+def test_get_airport_by_id(air_id):
+    res = requests.get(BASE_API_LINK + '/airports/' + air_id)
+    assert res.status_code == 200, "NO SUCH AIRPORT: " + str(res.status_code)
+
 # need to be parametrized
 @pytest.mark.parametrize('par', ['?from=KIX&to=NRT'])
 def test_calc_distance(par):
@@ -21,4 +26,3 @@ def test_calc_distance(par):
     assert res.json()['data']['attributes']['kilometers'] == 490.8053652969214, "WRONG KM DISTANCE"
     assert res.json()['data']['attributes']['miles'] == 304.76001022047103, "WRONG MILES DISTANCE"
     assert res.json()['data']['attributes']['nautical_miles'] == 264.82908133654655, "WRONG NM DISTANCE"
-
